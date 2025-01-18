@@ -1,0 +1,38 @@
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container-fluid">
+      <div class="navbar-wrapper">
+        <a class="navbar-brand" href="{% url 'home' %}">Be sure about your bets!</a>
+      </div>
+
+      <div class="navbar-content">
+        <ul class="navbar-nav">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a href="{% url 'statpoolshome' %}">
+              <i class="material-icons">favorite</i>
+            </a>
+          </li>
+          <li class="nav-item nav-item-dropdown">
+            <a class="nav-link" id="navbarDropdownProfile">
+              <i class="material-icons">person</i>
+            </a>
+            <div class="nav-item-dropdown-content">
+              <!-- Add Profile Page -->
+              <a class="dropdown-item" href="account/profile" style="pointer-events: none;">{{user.username}}</a>
+              <hr />
+              <a class="dropdown-item" href="{% url 'logout' %}" >Log out</a>
+            </div>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="login-btn" href="{% url 'login' %}">
+              <big><b>Login</b></big>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>

@@ -1,0 +1,43 @@
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+  <link href="/static/css/login-styles.css" rel="stylesheet" />
+{% endblock stylesheets %}
+
+<div class="login-background">
+  <div class="login-container">
+    <div class="login-header">
+      Login
+      <hr />
+    </div>
+    <div>
+      {% if form.errors %}
+          {% for field, errors in form.errors.items %}
+              {% for error in errors %}
+                  <div style="margin: auto; width: 90%;">{{ error }}</div>
+              {% endfor %}
+          {% endfor %}
+      {% endif %}
+    </div>
+    <div>
+      <form role="form" method="post" action="" style="text-align: center;">
+          
+        {% csrf_token %} 
+        <div><label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label></div>
+        <div>{{ form.username }}</div>
+        <div><label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label></div>
+        <div>{{ form.password }}</div>
+        <div style="padding: 10px 10px 5px 10px;">
+          <button type="submit" name="login" class="login-btn">Login</button>
+          <a href="{% url 'home' %}" name="back" class="cancel-btn">Cancel</a>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <div style="padding-right: 2px; font-size: small;">Don't have an account?</div>
+          <a href="{% url 'register' %}" class="create-btn">Create</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

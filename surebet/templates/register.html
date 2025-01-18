@@ -1,0 +1,47 @@
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+  <link href="/static/css/login-styles.css" rel="stylesheet" />
+{% endblock stylesheets %}
+
+<div class="login-background">
+  <div class="login-container">
+    <div class="login-header">
+      Register
+      <hr />
+    </div>
+    <div>
+      {% if form.errors %}
+          {% for field, errors in form.errors.items %}
+              {% for error in errors %}
+                  <div style="margin: auto; width: 90%;">{{ error }}</div>
+              {% endfor %}
+          {% endfor %}
+      {% endif %}
+    </div>
+    <div>
+
+      <form role="form" method="post" action="" style="text-align: center;">
+          
+        {% csrf_token %} 
+        <div><label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label></div>
+        <div>{{ form.username }}</div>
+        <div><label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label></div>
+        <div>{{ form.email }}</div>
+        <div><label for="{{ form.password2.id_for_label }}">{{ form.password1.label }}</label></div>
+        <div>{{ form.password1 }}</div>
+        <div><label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label></div>
+        <div>{{ form.password2 }}</div>
+        <div style="padding: 10px 10px 5px 10px;">
+          <button type="submit" name="login" class="login-btn">Register</button>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <div style="padding-right: 2px; font-size: small;">Already have an account?</div>
+          <a href="{% url 'login' %}" class="create-btn">login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

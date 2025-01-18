@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/error-styles.css"  />
+{% endblock %}
+
+{% block content %}
+<img class="error-img" src="/static/img/buttfumble.png"/>
+<div class="error-title"> 500 </div>
+<div class="error-subtitle"> Internal Server Error </div>
+<div class="error-body"> Sorry. It's not you. It's us.</div>
+<div class="text-center" style="width: 100%;">
+<a href="{% url 'home' %}"><button class="error-btn">HOME</button></a>
+</div>
+{% endblock %}
