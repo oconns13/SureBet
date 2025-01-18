@@ -56,7 +56,7 @@ class NFLApiService():
         for item in NFLTeamConstants.ID:
             if NFLTeamConstants.ID[str(item)] == teamName:
                 teamId = item
-        response = requests.get("http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/"+str(int(gameIdSplit[0]))+"/competitions/"+str(int(gameIdSplit[0]))+"/competitors/"+teamId+"/roster/"+playerId+"/statistics/0")
+        response = requests.get("http://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/"+str(int(gameIdSplit[0]))+"/competitions/"+str(int(gameIdSplit[0]))+"/competitors/"+str(teamId)+"/roster/"+str(playerId)+"/statistics/0")
         data = json.loads(response.text)
         return data['splits']['categories']
     
