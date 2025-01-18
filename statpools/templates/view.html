@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block title %}View{% endblock %} 
+{% load templatetags %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=crown,info" />
+<script src="/static/js/view-stat-pool.js"></script>
+<link rel="stylesheet" href="/static/css/view-styles.css"  />
+<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div id="popupModal">
+</div>
+
+<div style="padding: 25px;">
+  <div class="view-header-container">
+    <div class="view-title">
+      <b>{{statpool.name|upper}}</b>
+    </div>
+    <div class="view-header-subtitle">
+      {{statpool.owner}}
+    </div>
+  </div>
+  <div class="view-row" style="margin: auto;">
+    <div class="leaderboard-container">
+      <div class="leaderboard-card">
+        <div class="leaderboard-card-header">
+          <div style="display: flex;">
+            <b>LEADERBOARDS</b>
+            {% if statpool.owner == user %}
+            <div class="add-friends-btn"
+                hx-get="{% url 'statpoolsadduser' %}" 
+                hx-target="#popupModal" 
+                hx-include="[name*='statpoolid']">ADD FRIENDS
+            </div>
+            <input name="statpoolid" value="{{statpool.id}}" hidden />
+            {% endif %}
+          </div>
+        </div>
+        <div class="leaderboard-card-scroll">
+          {% for user in users %}
+          <div class="leaderboard-item">
+            <a href="{% url 'statpoolsview' statpoolid=statpool.id %}?user={{user.id}}">
+              <div style="display: flex;">
+                {% if forloop.first %}
+                <span class="material-symbols-outlined leaderboard-number">crown</span>
+                {% else %}
+                <div class="leaderboard-number">{{forloop.counter}}</div>
+                {% endif %}
+                <div class="leaderboard-username">{{user.user_id.username}}</div>
+                <div class="leaderboard-score">{{user.score}}</div>
+              </div>
+              <hr />
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="picks-container">
+      <div class="picks-card">
+        <div class="picks-card-header">
+          {% if picksUser == request.user.username %}
+            <b>MY PICKS</b>
+          {% else %}
+            <b>{{picksUser|upper}}'S PICKS</b>
+          {% endif %}
+        </div>
+        <div class="picks-card-scroll">
+        {% for cat in categories %}
+        <div class="player-container">
+          <div style="display: flex;">
+            <div class="player-img-container">
+              <img src="{{cat.player.img}}" height="100%" width="100%"/>
+            </div>
+            <div class="player-info-container">
+              <div style="display: flex; position: relative;">
+                {% if cat.game.started or request.user.username != picksUser %}
+                <span class="stat-description"><b>{{cat.stat.desc|upper}}:</b></span>
+                  {% if not cat.game.started %}
+                  <input id="{{cat.id}}-input" name="statpick" type="number" class="score-input disabled" autocomplete="none" readonly/>
+                  {% else %}
+                  <input id="{{cat.id}}-input" name="statpick" type="number" class="score-input disabled" value="{{cat.userpick.value}}" autocomplete="none" readonly/>
+                  {% endif %}
+                {% else %}
+                <form method="POST" hx-include="[name*='statpick']" style="display: flex; width: 100%;">
+                  {% csrf_token %}
+                  <span class="stat-description"><b>{{cat.stat.desc|upper}}:</b></span>
+                  <input id="{{cat.id}}-input" name="statpick" type="number" class="score-input" value="{{cat.userpick.value}}" autocomplete="none" />
+                  <button type="submit" name="setpick" value="{{cat.id}}" class="save-score-btn">SAVE</button>
+                </form>
+                {% endif %}
+              </div>
+              <div class="score-progress-container">
+                <div class="vl"></div>
+                <progress class="score-progress" value="{{cat.value}}" max="{{cat.userpick.value|double}}"></progress>
+              </div>
+              {% if cat.game.status == "STATUS_SCORED" %}
+              <div style="display: flex;">
+                <div class="final-sign">FINAL</div> 
+                <div style="margin: auto auto auto 5px; font-size: x-large;">+{{cat.userpick.value|score_dif:cat.value}}</div>
+              </div>
+              <div>
+                {{cat.stat.desc|upper}}: {{cat.value}}
+              </div>
+              {% elif cat.game.started %}
+              <div style="display: flex;">
+                <div class="live-sign">LIVE</div> 
+                <div style="margin: auto auto auto 5px;">{{cat.game.status}}</div>
+              </div>
+              <div>
+                {{cat.stat.desc|upper}}: {{cat.value}}
+              </div>
+              {% else %}
+              <div class="text-center">
+                <div><i>#{{cat.player.num}}</i> &nbsp; {{cat.player.name}} &nbsp; <i>{{cat.player.pos}}</i> </div>
+                <div>{{cat.game.desc}} &nbsp;</div>
+                <div style="font-size: small;">{{cat.game.start_time}}</div>
+              </div>
+              {% endif %}
+
+              <!-- <div style="display: flex;">            
+                <img src="{{cat.player.team_logo}}" height="30px;" width="30px"/>              
+                <div><i>{{cat.player.team}}</i></div>
+              </div> -->
+              <!-- <div></div> -->
+              <!-- {% if cat.game.status == 'STATUS_SCORED' %}
+                {% if cat.userpick.value and cat.value|score_dif:cat.userpick.value < 10 or not cat.userpick.value and cat.value < 10 %}
+                <div style="background-color: #cde9ce; border: 2px solid #4caf50; display: flex; border-radius: 1rem;">
+                {% elif cat.userpick.value and cat.value|score_dif:cat.userpick.value > 25 or not cat.userpick.value and cat.value > 25 %}
+                <div style="background-color: #fccac7; border: 2px solid #f44336; display: flex; border-radius: 1rem;">
+                {% else %}
+                <div style="background-color: #fff9c8; border: 2px solid #ffeb3b; display: flex; border-radius: 1rem;">
+                {% endif %}
+                <div style="text-align: center; margin:auto">
+                  <div>Player Total: </div>
+                  <div style="font-size: large;">{{cat.value}}</div>
+                </div>
+                <div style="margin: auto;">
+                  <b>
+                    {% if cat.userpick %}
+                    <div style="font-size: x-large;">+{{cat.userpick.value|score_dif:cat.value}}</div>
+                    {% else %}
+                    <div>+{{cat.value}}</div>
+                    {% endif %}
+                  </b>
+                </div>
+              </div>
+              {% elif cat.game.started %}
+                <div style="background-color: #a9d7fb; border: 2px solid #2196f3; display: flex; ">
+                  <div style="text-align: center; margin:auto">
+                    <div><b>Game in Progress</b></div>
+                    <div>{{cat.game.status}}</div>
+                  </div>
+                  <div style="text-align: center; margin:auto">
+                    <div><b>{{cat.stat.desc}}</b></div>
+                    <div>{{cat.value}}</div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <hr />    
+          <div style="text-align: center;">
+            <div>{{cat.game.desc}}</div>
+            <div>{{cat.game.start_time}}</div>
+          </div>
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <i class="material-symbols-outlined" style="font-size:18px;" 
+                title="How many of the listed stat will the given player get in the listed game?">
+              info
+            </i>
+            <div style="margin: 4px; font-size: 16px;"><b>{{cat.stat.desc|upper}}:</b></div>
+            <form method="POST" hx-include="[name*='statpick']" style="margin:0;">
+              {% csrf_token %}
+              {% if cat.game.started %}
+              <input id="{{cat.id}}-input" name="statpick" type="number" style="width: 4rem;" value="{{cat.userpick.value}}" readonly />
+              <button type="submit" name="setpick" value="{{cat.id}}" class="btn btn-outline-success btn-sm" style="padding: 0px;" disabled>
+                <i class="material-icons" style="font-size:20px; color:green; margin: auto;">check</i>
+              </button>
+              {% else %}
+              <input id="{{cat.id}}-input" name="statpick" class="score-input" value="{{cat.userpick.value}}" />
+              <button type="submit" name="setpick" value="{{cat.id}}" class="save-score-btn">
+                SAVE
+              </button>
+              {% endif %}
+            </form>
+          </div>  -->
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

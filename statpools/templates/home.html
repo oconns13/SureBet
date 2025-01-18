@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Home
+{% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/css/home-styles.css"  />
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="home-header-container">
+    <div class="home-title">
+      <b>STAT POOLS</b>
+    </div>
+    <div class="text-center">
+      {% if not user.is_authenticated %}
+      <a class="create-btn disabled" href="{% url 'statpoolscreate' %}" rea>
+      {% else %}
+      <a class="create-btn" href="{% url 'statpoolscreate' %}" >
+      {% endif %}
+        <big><b>Create New Pool</b></big>
+      </a>
+    </div>
+  </div>
+  {% if not user.is_authenticated %}
+  <div class="no-login-container">
+    <div>You must sign in to join a Stat Pool!</div>
+    <div>
+      <a class="create-btn" href="{% url 'login' %}" >
+        <big><b>Login</b></big>
+      </a>
+    </div>
+  </div>
+  {% else %}
+  <div style="display: flex;">
+    <div class="pool-container">
+      <div class="pool-card">
+        <div class="pool-card-header">
+          <b>MY POOLS</b>
+        </div>
+        <div class="pool-card-scroll">
+          {% for pool in mypools %}
+          <div class="pool-item clickable">
+            <a href="{% url 'statpoolsview' statpoolid=pool.id %}" style="color: black;">
+              <div class="pool-item-name">
+                <b>{{pool.name}}</b>
+              </div>
+              <div class="pool-item-content">
+                <div class="owner">
+                  <i class="material-icons" style="height: 24px; margin-left: auto;">person</i>
+                  {{pool.owner}}
+                </div>
+                <div class="user-count"> 
+                  <i class="material-icons" style="height: 24px;">group</i>
+                  {{pool.user_count}}
+                </div>
+                <div class="status">
+                  {{pool.user_status}}
+                </div>
+              </div>
+            </a>
+            <hr />
+          </div>
+          {% empty %}
+          <div class="pool-item">
+            <div class="pool-item-name">
+              <b>You currently have no active pools</b>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="pool-container">
+      <div class="pool-card">
+        <div class="pool-card-header">
+            <b>PUBLIC POOLS</b>
+        </div>
+        <div class="pool-card-scroll">
+          <div class="pool-item">
+            <div class="pool-item-name">
+              <b>There are currently no active Public Pools</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stat-container">
+      <div class="pool-card">
+        <div class="pool-card-header">
+          <b>MY STATS</b>
+        </div>
+        <div class="pool-card-scroll" style="padding-top: 0rem;">
+            <div class="stat-item">
+              <div class="title">POOLS PLAYED</div>
+              <div class="score"><b>{{user_stats.pools_played}}</b></div>
+            </div>
+            <div class="stat-item">
+              <div class="title">WINS</div>
+              <div class="score"><b>{{user_stats.wins}}</b></div>
+            </div>
+            <div class="stat-item">
+              <div class="title">BEST SCORE</div>
+              <div class="score"><b>{{user_stats.best_pool.score}}</b></div>
+              <div class="subtitle">{{user_stats.best_pool.name}}</div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock content %}

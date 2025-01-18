@@ -1,0 +1,26 @@
+
+<script src="/static/js/create-stat-pool.js"></script>
+
+<!-- Modal -->
+<div class="modal-background">
+    <div class="modal-content">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="modal-header">
+                <div class="modal-title">Finalize Stat Pool</div>
+                <button type="button" class="close-btn text-right" onclick="CloseWindow(false)">
+                    CLOSE
+                </button>
+            </div>
+            <div class="text-center" style="font-size: x-large;">
+                NAME
+            </div>
+            <div style="padding: .5rem 0 .5rem 0; text-align: center; width: 100%;">
+                {{ form.name }}
+            </div>
+            <div class="modal-footer text-right">
+                <button type="submit" name="create" class="add-btn">Complete</button>
+            </div>
+        </form>
+    </div>
+</div>

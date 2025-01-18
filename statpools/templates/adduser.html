@@ -1,0 +1,27 @@
+
+<script src="/static/js/create-stat-pool.js"></script>
+<link rel="stylesheet" href="/static/css/add-user-styles.css"  />
+
+<form id="user_form" hx-post="{% url 'statpoolsadduser' %}">
+    {% csrf_token %}
+    <input name="statpoolid" value="{{statpoolid}}" hidden/>
+<!-- Modal -->
+    <div class="modal-background">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Add Stat Pool User</div>
+                <button class="send-invite-btn" type="button" class="close" aria-label="Close" onclick="CloseWindow(true)">
+                   CLOSE
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex;">
+                    <div>
+                        {{ form.as_p }}
+                    </div>
+                    <button type="submit" name="adduser" class="send-invite-btn">Send Invite</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

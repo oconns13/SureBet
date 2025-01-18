@@ -1,0 +1,70 @@
+
+<script src="/static/js/create-stat-pool.js"></script>
+
+<!-- Modal -->
+<input id="games" value="{{games}}" hidden />
+<input id="players" hidden />
+<div class="modal-background">
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title" id="exampleModalLabel">New Category</div>
+        <button class="close-btn" onclick="CloseWindow(false)">CLOSE</button>
+    </div>
+    <div class="modal-body">
+        <div style="width: 100%;">
+            <button class="add-category-btn" id="gameDropdown" onclick="ShowOptions('gameMenu')" >
+               <div class="add-category-btn-text" id="selectedGame">Choose a Game</div>
+               <hr />
+            </button>
+            <div id="gameMenu" class="dropdown-menu">
+                {% for item in games %}
+                <a class="dropdown-item" onclick="SetGame('{{forloop.counter0}}')">
+                    <div class="game-desc">
+                        <img src="{{item.alogo}}" height="30" width="30"/>
+                        <b>{{item.away}} @</b>
+                        <img src="{{item.hlogo}}" height="30" width="30"/>
+                        <b>{{item.home}}</b>
+                    </div>
+                    <div class="game-date">
+                        {{item.date}}
+                    </div>
+                </a>
+                {% empty %}
+                <a class="dropdown-item">
+                    <div style="margin:auto; text-align: center;">
+                        <b>There are currently no games to choose from this week.</b>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+            <button class="add-category-btn" type="button" id="playerDropdown" onclick="ShowOptions('player-dropdown-menu')" disabled="true">
+                <div class="add-category-btn-text" id="selectedPlayer">Choose a Player</div>
+                <hr />
+            </button>
+            <div id="player-dropdown-menu" class="dropdown-menu">
+            </div>
+        </div>
+        <div>
+            <button class="add-category-btn" type="button" id="statDropdown" onclick="ShowOptions('stat-dropdown-menu')" disabled="true">
+                <div class="add-category-btn-text" id="selectedStat">Choose a Statistic</div>
+                <hr />
+            </button>
+            <div id="stat-dropdown-menu" class="dropdown-menu" aria-labelledby="statDropdown">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <form method="POST" id="addCategoryForm" hx-include="[name*='SelectedInput']" style="padding: 0; display: flex;">
+            <!-- hx-post="{% url 'statpoolsaddcategory' %}" -->
+            {% csrf_token %}
+            <input id="gameSelectedInput" name="gameSelectedInput" hidden/>
+            <input id="playerSelectedInput" name="playerSelectedInput" hidden/>
+            <input id="statSelectedInput" name="statSelectedInput" hidden/>
+            <button type="button" class="shuffle-btn" onclick="Shuffle()"><i class="material-icons">shuffle</i></button>
+            <button type="submit" name="add" id="add_category_submit_btn" class="add-btn" disabled>Add</button>
+        </form>
+    </div>
+</div>
+</div>
