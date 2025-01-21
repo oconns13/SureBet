@@ -82,7 +82,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'surebet',
-        'USER': 'jaredoconnor',
+        'USER': 'postgres',
         'PASSWORD': 'sur3b3tpa44',
         'HOST': 'surebet.cx8c4ug8gbd8.us-east-2.rds.amazonaws.com',
         'PORT': '5432'
@@ -136,5 +136,5 @@ LOGIN_REDIRECT_URL = 'home'
 
 # Celery
 CELERY_BROKER_URL = "127.0.0.1"
-CELERY_RESULT_BACKEND = "db+postgresql://jaredoconnor:sur3b3tpa44@surebet.cx8c4ug8gbd8.us-east-2.rds.amazonaws.com:5432/surebet"
+CELERY_RESULT_BACKEND = "db+postgresql://postgres:sur3b3tpa44@surebet.cx8c4ug8gbd8.us-east-2.rds.amazonaws.com:5432/surebet"
 CELERY_HOSTNAME = "127.0.0.1"
