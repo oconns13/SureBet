@@ -81,11 +81,10 @@ WSGI_APPLICATION = 'surebet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'surebet_test',
+        'NAME': 'surebet',
         'USER': 'jaredoconnor',
-        'PASSWORD': '1213',
-        'HOST':'127.0.0.1',
-        # 'HOST': 'w3-django-project.cdxmgq9zqqlr.us-east-1.rds.amazonaws.com',
+        'PASSWORD': 'sur3b3tpa44',
+        'HOST': 'surebet.cx8c4ug8gbd8.us-east-2.rds.amazonaws.com',
         'PORT': '5432'
     }
 }
@@ -136,6 +135,6 @@ LOGOUT_REDIRECT_URL = 'home'
 LOGIN_REDIRECT_URL = 'home'
 
 # Celery
-#CELERY_BROKER_URL = "redis://localhost:6379/0"  # Replace with your Redis URL
-CELERY_RESULT_BACKEND = "db+postgresql://jaredoconnor:1213@localhost:5432/surebet_test"
-CELERY_HOSTNAME = "localhost"
+CELERY_BROKER_URL = "127.0.0.1"
+CELERY_RESULT_BACKEND = "db+postgresql://jaredoconnor:sur3b3tpa44@surebet.cx8c4ug8gbd8.us-east-2.rds.amazonaws.com:5432/surebet"
+CELERY_HOSTNAME = "127.0.0.1"
