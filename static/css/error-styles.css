@@ -1,0 +1,36 @@
+
+.error-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30vw; 
+    height: 40vh; }
+
+.error-title {
+    font-size: 70px;
+    font-weight: bold;
+    text-align: center;
+}
+.error-subtitle {
+    font-size: 30px;
+    text-align: center;
+}
+.error-body {
+    font-size: 20px;
+    text-align: center; 
+}
+.error-btn {
+    font-family: "market deco", sans-serif;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    margin: auto;
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    color: #994636;
+    background-color: transparent;
+    border: 0.2rem solid #994636;
+    box-shadow: none;
+    text-align: center; }
+    .error-btn:hover {
+        cursor: pointer;
+        background-color: #994636;
+        color: whitesmoke; }
