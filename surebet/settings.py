@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-wn^da7f7%@=du+5-d5(t83!g0ow%@*=s&$d!lmgpwr21#2*2up'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '18.117.7.14']
 
@@ -80,8 +80,13 @@ WSGI_APPLICATION = 'surebet.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'surebet_test',
+        'USER': 'jaredoconnor',
+        'PASSWORD': '1213',
+        'HOST':'localhost',
+        # 'HOST': 'w3-django-project.cdxmgq9zqqlr.us-east-1.rds.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
@@ -129,3 +134,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_REDIRECT_URL = 'home'
+
+# Celery
+#CELERY_BROKER_URL = "redis://localhost:6379/0"  # Replace with your Redis URL
+CELERY_RESULT_BACKEND = "db+postgresql://jaredoconnor:1213@localhost:5432/surebet_test"
+CELERY_HOSTNAME = "localhost"
