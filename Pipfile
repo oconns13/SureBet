@@ -13,7 +13,7 @@ nfl-data-py = "*"
 djangorestframework = "*"
 celery = "*"
 django_celery_beat = "*"
-psycopg2 = "*"
+psycopg2-binary = "*"
 sqlalchemy = "*"
 
 [dev-packages]

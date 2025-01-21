@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'surebet_test',
         'USER': 'jaredoconnor',
         'PASSWORD': '1213',
-        'HOST':'localhost',
+        'HOST':'127.0.0.1',
         # 'HOST': 'w3-django-project.cdxmgq9zqqlr.us-east-1.rds.amazonaws.com',
         'PORT': '5432'
     }
