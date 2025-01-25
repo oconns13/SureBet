@@ -15,6 +15,7 @@ celery = "*"
 django_celery_beat = "*"
 psycopg2-binary = "*"
 sqlalchemy = "*"
+gunicorn = "*"
 
 [dev-packages]
 djangorestframework = "*"
