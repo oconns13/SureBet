@@ -1,6 +1,6 @@
 
 <script src="/static/js/create-stat-pool.js"></script>
-<link rel="stylesheet" href="/static/css/add-user-styles.css"  />
+<link href="/static/css/add-user-styles.css" rel="stylesheet">
 
 <form id="user_form" hx-post="{% url 'statpoolsadduser' %}">
     {% csrf_token %}

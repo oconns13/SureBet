@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'surebet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'sur3b3tpa44',
-        'HOST': 'surebetdb.cx8c4ug8gbd8.us-east-2.rds.amazonaws.com',
+        'NAME':'surebet_test',
+        'USER': 'jaredoconnor',
+        'PASSWORD': '1213',
+        'HOST': 'localhost',
         'PORT': '5432'
     }
 }
